@@ -1,20 +1,27 @@
 {
-  "name": "campground",
+  "name": "campgrounds",
   "version": "1.0.0",
-  "description": "this project is to study nodejs and javascript",
+  "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "author": "Ho Hai Nguyen",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^3.1.5",
+    "bcrypt": "^5.0.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
     "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
-    "joi": "^17.3.0",
+    "express-session": "^1.17.1",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
-    "mongoose": "^5.10.15",
-    "nodemon": "^2.0.6"
+    "mongoose": "^5.12.7",
+    "npx": "^10.2.2",
+    "path": "^0.12.7"
   }
 }

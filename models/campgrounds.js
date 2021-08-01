@@ -1,23 +1,21 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const {model,Schema} = require('mongoose')
 
-const CampGroundSchema = new Schema({
+const campgroundSchema = new Schema({
     title: String,
-    image: String,
     price: Number,
+    image: String,
+    location:String,
     description: String,
-    location: String
+    user:{
+        type: Schema.Types.ObjectId,
+        ref:'User'
+    },
+    reviews:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 })
 
-CampGroundSchema.methods.findPrinceSimilar = async function (){
-    const campgrounds = await Campground.find({price: this.price})
-    return campgrounds
-}
-
-CampGroundSchema.statics.findPriceLessThan = async function (p){
-    const campgrounds = await Campground.find({price: {$gte: p}})
-    return campgrounds
-}
-
-const Campground = mongoose.model('Campground', CampGroundSchema)
-module.exports = Campground
+module.exports = model("Campground", campgroundSchema)
