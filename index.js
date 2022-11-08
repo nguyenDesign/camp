@@ -6,7 +6,8 @@ sampleDistrict = ["District 1", "District 2", "District 3", "District 4"]
 let updateAll = async function(){
     let campgrounds = await Campground.find({})
     for (const camp of campgrounds){
-        camp.user = "609e6ea6aaa258120105178b"
+        let admin = await User.findById("6294e7066aeac712cd461ac8")
+        camp.user = admin
         await camp.save()
     }
 }

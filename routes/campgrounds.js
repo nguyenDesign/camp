@@ -6,6 +6,7 @@ const ExpressError = require('../utils/expressError')
 const auth = require('../utils/auth')
 const isAuthor = require('../utils/isAuthor')
 const User = require('../models/user')
+const CampgroundController = require('../controller/campgroundController')
 let validateSchema = function(req,res,next){
     let {error} =  validCampground.validate(req.body)
     if (error){
@@ -17,11 +18,9 @@ let validateSchema = function(req,res,next){
 }
 
 //Prefix = /campgrounds
-route.get('/', wrapAsync( async (req,res)=>{
-    let campgrounds = await Campground.find({})
-    let name  = req.cookies['name']
-    res.render('campgrounds/index',{campgrounds, name})
-}))
+route.route("/")
+    .get(wrapAsync(CampgroundController.index))
+    .post(validateSchema, wrapAsync (CampgroundController.createNewCamp))
 route.get('/new', (req,res)=>{
     res.render('campgrounds/new')
 })
@@ -32,7 +31,8 @@ route.get('/:id', wrapAsync(async (req,res)=>{
             path: "author"
         }
     }).populate("user")
-
+    // In case user is deleted 
+   
     let id = req.cookies['id'] // if user log in there will be a user name on the cookies
     let user = await User.findById(id)
     if (!campground){
@@ -47,12 +47,7 @@ route.get('/:id/edit', auth, isAuthor,wrapAsync (async (req,res)=>{
     let user = req.cookies['user']
     res.render('campgrounds/edit', {campground, user})
 }))
-route.post('/', validateSchema, wrapAsync (async  (req,res)=>{
-    let campground = new Campground(req.body.campground)
-    await campground.save()
-    req.flash('success', 'Success: Campground has been created')
-    res.redirect('/campgrounds')
-}))
+
 route.put('/:id', auth, isAuthor, validateSchema, wrapAsync(async (req,res)=>{
     await Campground.findByIdAndUpdate(req.params.id, {...req.body.campground})
     req.flash('success', 'Success: Campground has been modified')
